@@ -5,8 +5,8 @@ import (
 	"encoding/hex"
 	"testing"
 
-	"github.com/benbjohnson/litestream"
-	_ "github.com/mattn/go-sqlite3"
+	"github.com/talmeme/litestream"
+	_ "github.com/talmeme/go-sqlite3"
 )
 
 func TestChecksum(t *testing.T) {

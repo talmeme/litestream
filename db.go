@@ -19,7 +19,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/benbjohnson/litestream/internal"
+	"github.com/talmeme/litestream/internal"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
 )
@@ -412,6 +412,12 @@ func (db *DB) init() (err error) {
 
 	dsn := db.path
 	dsn += fmt.Sprintf("?_busy_timeout=%d", BusyTimeout.Milliseconds())
+
+	// Apply DB cipher key if set.
+	sqlcipherKey, exists := os.LookupEnv("APP_SQLCIPHER_KEY")
+	if exists {
+	    dsn += fmt.Sprintf("&_key=%s", sqlcipherKey)
+	}
 
 	// Connect to SQLite database. Use the driver registered with a hook to
 	// prevent WAL files from being removed.
@@ -1486,8 +1492,15 @@ func applyWAL(ctx context.Context, index int, dbPath string) error {
 		return err
 	}
 
+	// Apply DB cipher key if set.
+	dsn := dbPath
+	sqlcipherKey, exists := os.LookupEnv("APP_SQLCIPHER_KEY")
+	if exists {
+	    dsn += fmt.Sprintf("?_key=%s", sqlcipherKey)
+	}
+
 	// Open SQLite database and force a truncating checkpoint.
-	d, err := sql.Open("sqlite3", dbPath)
+	d, err := sql.Open("sqlite3", dsn)
 	if err != nil {
 		return err
 	}

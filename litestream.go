@@ -14,7 +14,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mattn/go-sqlite3"
+	"github.com/talmeme/go-sqlite3"
 )
 
 // Naming constants.

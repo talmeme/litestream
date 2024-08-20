@@ -7,9 +7,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/benbjohnson/litestream"
-	"github.com/benbjohnson/litestream/file"
-	"github.com/benbjohnson/litestream/mock"
+	"github.com/talmeme/litestream"
+	"github.com/talmeme/litestream/file"
+	"github.com/talmeme/litestream/mock"
 	"github.com/pierrec/lz4/v4"
 )
 
